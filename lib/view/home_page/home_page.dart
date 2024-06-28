@@ -4,6 +4,7 @@ import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:getxstatemanagement/controller/home_controller.dart';
 import 'package:getxstatemanagement/view/cart_page/cart_page.dart';
+import 'package:getxstatemanagement/view/product/product_page.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key, required this.title});
@@ -43,9 +44,23 @@ class MyHomePage extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineMedium,
               );
             }),
+            GetX<HomeController>(builder: (controller) {
+              return Text(
+                '${controller.count.value}',
+                style: Theme.of(context).textTheme.headlineMedium,
+              );
+            }),
+            GetBuilder<HomeController>(
+              builder: (controller) {
+                return Text(
+                  '${controller.count.value}',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                );
+              },
+            ),
             ElevatedButton(
                 onPressed: () {
-                  controller.count++;
+                  controller.updateCount();
                   Get.snackbar(
                     "Success",
                     "Count ++",
@@ -59,11 +74,18 @@ class MyHomePage extends StatelessWidget {
                   controller.count--;
                 },
                 child: Icon(Icons.remove))
+
+            ,ElevatedButton(
+                onPressed: () {
+                  Get.to(()=>ProductPage(),transition:Transition.circularReveal,duration: Duration(seconds: 2));
+                },
+                child: Text("Goto Product Page"))
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          // controller.getFinalVal();
           Get.to(() => CartPage());
         },
         tooltip: 'Increment',
